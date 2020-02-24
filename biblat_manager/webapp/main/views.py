@@ -15,7 +15,7 @@ from flask_login import current_user, login_user, logout_user, login_required
 from . import main
 from biblat_manager.webapp import babel, controllers
 from biblat_manager.webapp.forms import (
-    RegistrationForm, LoginForm, EmailForm, PasswordForm, FasciculoRegistrationForm,
+    RegistrationForm, LoginForm, EmailForm, PasswordForm, RevistaRegistrationForm
 )
 from biblat_manager.webapp.models import User
 from biblat_manager.webapp.utils import get_timed_serializer
@@ -302,20 +302,12 @@ def reset_with_token(token):
     return render_template('auth/reset_with_token.html', **data)
 
 
-@main.route('/fasciculos', methods=['GET', 'POST'])
-@register_breadcrumb(main, '.fasciculos', __('Fasciculos'))
+@main.route('/revistas/agregar', methods=['GET', 'POST'])
+@register_breadcrumb(main, '.revistas.add', __('Agregar'))
 @login_required
-def fasciculos():
-    return render_template('main/fasciculo.html', pag='verfasc')
-
-
-@main.route('/fasciculos/agregar', methods=['GET', 'POST'])
-@register_breadcrumb(main, '.fasciculos.add', __('Agregar Fascículo'))
-@login_required
-def fasciculos_add():
-    form = FasciculoRegistrationForm()
+def revistas_add():
+    form = RevistaRegistrationForm()
     if request.method == 'POST' and form.validate():
         print('envío')
 
-    return render_template('forms/register_fasciculo.html', form=form, pag='addfasc')
-
+    return render_template('forms/register_revista.html', form=form)

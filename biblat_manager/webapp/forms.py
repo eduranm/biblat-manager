@@ -6,8 +6,6 @@ from wtforms import (
     StringField,
     PasswordField,
     BooleanField,
-    SelectField,
-    TextAreaField,
     validators,
     ValidationError)
 
@@ -77,62 +75,30 @@ class PasswordForm(FlaskForm):
     ])
     confirm = PasswordField(__('Confirmar contraseña'))
 
-
-class RevistaRegistrationForm(FlaskForm):
-    bd = SelectField(__('Base de Datos'), [
+class FasciculoRegistrationForm(FlaskForm):
+    anio = StringField(__('Año*'), [
+        validators.Length(min=1, max=4),
         validators.DataRequired()
-    ], choices=[('CLA', 'CLASE'),
-                ('PER', 'PERIÓDICA')]
+    ])
+
+    volumen = StringField(__('Volumen'), [
+        validators.Length(min=1, max=3),
+        validators.optional()
+    ])
+
+    numero = StringField(__('Número'), [
+        validators.Length(min=1, max=3),
+        validators.optional()
+    ])
+
+    mes_inicial = SelectField(__('Mes inicial'), [
+        validators.DataRequired()
+    ], choices=[('01', 'ENERO'),
+                ('02', 'FEBRERO')]
                      )
 
-    titulo = StringField(__('Título de la revista (222a)*'), [
-        validators.Length(min=1, max=256),
+    mes_final = SelectField(__('Mes final'), [
         validators.DataRequired()
-    ])
-
-    titulo_abreviado = StringField(__('Título abreviado de la revista (210a)*'), [
-        validators.Length(min=1, max=256),
-        validators.DataRequired()
-    ])
-
-    issn = StringField(__('ISSN (022a)*'), [
-        validators.Length(min=9, max=9),
-        validators.DataRequired()
-    ])
-
-    eissn = StringField(__('e-ISSN'), [
-        validators.Length(min=9, max=9),
-        validators.DataRequired()
-    ])
-
-    pais = SelectField(__('País de la revista (008)*'), [
-        validators.DataRequired()
-    ], choices=[('MX', 'México'),
-                ('AR', 'Argentina'),
-                ('BR', 'Brasil')]
-                       )
-
-    disciplina = SelectField(__('Disciplina de la revista (698a)*'), [
-        validators.DataRequired()
-    ], choices=[('1', 'Física y astronomía'),
-                ('2', 'Matemáticas'),
-                ('3', 'Literatura')]
-                             )
-
-    licencia = SelectField(__('Licencia CC'), [
-        validators.DataRequired()
-    ], choices=[('1', 'BY-NC/4.0'),
-                ('2', 'L1'),
-                ('3', 'L2')]
-                           )
-
-    politica = SelectField(__('Sherpa Romeo'), [
-        validators.DataRequired()
-    ], choices=[('1', 'Verde'),
-                ('2', 'Azul'),
-                ('3', 'Amarillo')]
-                           )
-
-    acerca = TextAreaField(__('Sobre la revista'), [
-        validators.optional(), validators.length(max=200)
-    ], default="Misión, visión, etc...")
+    ], choices=[('02', 'FEBRERO'),
+                ('03', 'MARZO')]
+                              )
